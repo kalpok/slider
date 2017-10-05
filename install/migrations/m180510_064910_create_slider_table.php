@@ -30,5 +30,4 @@ class m180510_064910_create_slider_table extends Migration
         $this->dropForeignKey('slider_gallery', 'slider');
         $this->dropTable('slider');
     }
-
 }

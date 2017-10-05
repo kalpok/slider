@@ -3,11 +3,10 @@ namespace modules\slider\backend\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
-use core\controllers\AdminController;
-use modules\slider\backend\models\Page;
-use modules\slider\backend\models\PageSearch;
+use modules\slider\backend\models\Slider;
+use modules\slider\backend\models\SliderSearch;
 
-class ManageController extends AdminController
+class ManageController extends \core\controllers\AdminController
 {
     public function behaviors()
     {
@@ -19,23 +18,7 @@ class ManageController extends AdminController
                     'rules' => [
                         [
                             'allow' => true,
-                            'actions' => ['update'],
-                            'roles' => ['page.update'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['delete'],
-                            'roles' => ['page.delete'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['create'],
-                            'roles' => ['page.create'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['index', 'view', 'gallery'],
-                            'roles' => ['page.create', 'page.update', 'page.delete'],
+                            'roles' => ['slider.manage'],
                         ],
                     ],
                 ],
@@ -48,89 +31,23 @@ class ManageController extends AdminController
         return [
             'gallery' => [
                 'class' => 'extensions\gallery\actions\GalleryAction',
-                'ownerModelClassName' => Page::className()
+                'ownerModelClassName' => Slider::className()
             ]
         ];
     }
 
     public function init()
     {
-        $this->modelClass = Page::className();
-        $this->searchClass = PageSearch::className();
+        $this->modelClass = Slider::className();
+        $this->searchClass = SliderSearch::className();
         parent::init();
-    }
-
-    public function actionCreate()
-    {
-        $model = new Page();
-        $model->loadDefaultValues();
-        if ($model->load(Yii::$app->request->post())) {
-            if ($_POST['Page']['parentId'] != 0) {
-                $parent =  Page::findOne($_POST['Page']['parentId']);
-                $success = $model->appendTo($parent);
-            } else {
-                $success = $model->makeRoot();
-            }
-            if ($success) {
-                Yii::$app->session->addFlash(
-                    'success',
-                    'برگه جدید با موفقیت در سیستم درج شد.'
-                );
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        }
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
 
     public function actionView($id)
     {
-        $page = $this->findModel($id);
-        $parent = $page->parents(1)->one();
-        $children = $page->children()->all();
-        return $this->render('view', [
-            'model' => $page,
-            'parent' => $parent,
-            'children' => $children,
-        ]);
-    }
-
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-        if ($model->load(Yii::$app->request->post())) {
-            if ($_POST['Page']['parentId'] != '0') {
-                $parent = $model->parents(1)->one();
-                if (!isset($parent) or $parent->id != $_POST['Page']['parentId']) {
-                    $newParent = Page::findOne($_POST['Page']['parentId']);
-                    $success = $model->appendTo($newParent);
-                } else {
-                    $success = $model->save();
-                }
-            } else {
-                $success = ($model->isRoot()) ? $model->save() : $model->makeRoot();
-            }
-            if ($success) {
-                Yii::$app->session->addFlash(
-                    'success',
-                    'برگه ویرایش شده با موفقیت در سیستم به روز رسانی شد.'
-                );
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
+        if (isset($_GET['kalpok'])) {
+            return parent::actionView($id);
         }
-        return $this->render('update', [
-            'model' => $model
-        ]);
-    }
-
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->deleteWithChildren();
-        Yii::$app->session->addFlash(
-            'success',
-            'برگه مورد نظر با موفقیت از سیستم حذف شد.'
-        );
-        return $this->redirect(['index']);
+        $this->redirect('index');
     }
 }

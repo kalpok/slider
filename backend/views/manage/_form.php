@@ -4,10 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use themes\admin360\widgets\Panel;
 use themes\admin360\widgets\Button;
-use themes\admin360\widgets\editor\Editor;
 use extensions\i18n\widgets\LanguageSelect;
-use themes\admin360\widgets\SelectizeDropDownList;
-use extensions\file\widgets\singleupload\SingleImageUpload;
 
 $backLink = $model->isNewRecord ? ['index'] : ['view', 'id' => $model->id];
 ?>
@@ -18,44 +15,24 @@ $backLink = $model->isNewRecord ? ['index'] : ['view', 'id' => $model->id];
     <div class="row">
         <div class="col-md-8">
             <?php Panel::begin([
-                'title' => 'اطلاعات برگه'
+                'title' => 'اطلاعات اسلایدر'
             ]) ?>
                 <?=
                     $form->field($model, 'title')
                         ->textInput(
                             [
                                 'maxlength' => 255,
-                                'class' => 'form-control input-large'
+                                'class' => 'form-control input-medium'
                             ]
                         )
                 ?>
                 <?=
-                    $form->field($model, 'parentId')
-                        ->widget(
-                            SelectizeDropDownList::className(),
+                    $form->field($model, 'description')
+                        ->textInput(
                             [
-                                'allItems' => $model->possibleParents(),
-                                'selectedItems' => $model->parentId,
-                                'valueField' => 'id',
-                                'labelField' => 'prefixedTitle',
-                                'searchField' => ['prefixedTitle'],
-                                'additionalItems' => [
-                                    [
-                                        'id' => 0,
-                                        'prefixedTitle' => 'برگه سطح نخست است'
-                                    ]
-                                ],
-                                'options' => [
-                                    'class' => 'form-control input-large'
-                                ]
+                                'maxlength' => 255,
+                                'class' => 'form-control input-xlarge'
                             ]
-                        );
-                ?>
-                <?=
-                    $form->field($model, 'content')
-                        ->widget(
-                            Editor::className(),
-                            ['preset' => 'advanced']
                         )
                 ?>
             <?php Panel::end() ?>
@@ -79,16 +56,16 @@ $backLink = $model->isNewRecord ? ['index'] : ['view', 'id' => $model->id];
                     ])
                 ?>
             <?php Panel::end() ?>
-            <?php if (Yii::$app->i18n->isMultiLanguage()): ?>
+            <?php if (Yii::$app->i18n->isMultiLanguage()) : ?>
                 <?php Panel::begin([
                     'title' => 'زبان'
                 ]) ?>
-                    <?php if ($model->isNewRecord): ?>
+                    <?php if ($model->isNewRecord) : ?>
                         <?= $form->field($model, 'language')->widget(
                             LanguageSelect::className(),
                             ['options' => ['class' => 'form-control input-large']]
                         )->label(false); ?>
-                    <?php else: ?>
+                    <?php else : ?>
                         <?= $form->field($model, 'language')->textInput([
                             'class' => 'form-control input-large',
                             'disabled' => true,
@@ -98,19 +75,7 @@ $backLink = $model->isNewRecord ? ['index'] : ['view', 'id' => $model->id];
                 <?php Panel::end() ?>
             <?php endif ?>
             <?php Panel::begin([
-                'title' => 'تصویر شاخص'
-            ]) ?>
-                <?php
-                    echo SingleImageUpload::widget(
-                        [
-                            'model' => $model,
-                            'group' => 'image',
-                        ]
-                    );
-                ?>
-            <?php Panel::end() ?>
-            <?php Panel::begin([
-                'title' => 'ویژگی های برگه'
+                'title' => 'ویژگی های اسلایدر'
             ]) ?>
                 <?= $form->field($model, 'isActive')->checkbox(); ?>
             <?php Panel::end() ?>

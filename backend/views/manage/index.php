@@ -1,23 +1,24 @@
 <?php
 use yii\widgets\Pjax;
+use yii\helpers\Html;
 use yii\grid\GridView;
 use themes\admin360\widgets\Panel;
 use themes\admin360\widgets\ActionButtons;
 
-$this->title = 'لیست برگه‌ها';
+$this->title = 'لیست اسلایدر ها';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="Pages-index">
+<div class="sliders-index">
 <?= ActionButtons::widget([
     'buttons' => [
-        'create' => ['label' => 'برگه جدید'],
+        'create' => ['label' => 'اسلایدر جدید'],
     ],
 ]); ?>
 <?php Panel::begin([
-    'title' => 'لیست برگه‌ها'
+    'title' => 'لیست اسلایدر ها'
 ]) ?>
 <?php Pjax::begin([
-    'id' => 'page-gridviewpjax',
+    'id' => 'slider-gridviewpjax',
     'enablePushState' => false,
 ]); ?>
     <?= GridView::widget([
@@ -26,26 +27,28 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'core\grid\IDColumn'],
             ['class' => 'core\grid\LanguageColumn'],
-            [
-                'class' => 'core\grid\ThumbnailColumn',
-                'group' => 'image',
-                'label' => 'تصویر شاخص'
-            ],
-            [
-                'attribute' => 'title',
-                'value' => function ($model) {
-                    return $model->prefixedTitle;
-                },
-            ],
-            [
-                'attribute' => 'createdAt',
-                'format' =>'date',
-                'filter' =>false
-            ],
+            'title',
+            'createdAt:date',
             ['class' => 'core\grid\ActiveColumn'],
             [
-             'class' => 'yii\grid\ActionColumn',
-             'template' => '{view} {update}'
+                'label' => 'تعداد عکس ها',
+                'value' => function ($model) {
+                    return count($model->getGalleryImages());
+                },
+                'format' => 'farsiNumber'
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{gallery} {update}',
+                'buttons' => [
+                    'gallery' => function ($url, $model, $key) {
+                        return Html::a(
+                            '<span class="fa fa-camera-retro"></span>',
+                            $url,
+                            ['title' => 'مدیریت گالری', 'data-pjax' => 0]
+                        );
+                    },
+                ],
             ],
         ],
     ]); ?>

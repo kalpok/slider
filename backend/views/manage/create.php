@@ -3,14 +3,14 @@
 use yii\helpers\Html;
 use themes\admin360\widgets\ActionButtons;
 
-$this->title = 'برگه جدید';
-$this->params['breadcrumbs'][] = ['label' => 'برگه ها', 'url' => ['index']];
+$this->title = 'اسلایدر جدید';
+$this->params['breadcrumbs'][] = ['label' => 'اسلایدر ها', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="page-create">
     <?= ActionButtons::widget([
         'buttons' => [
-            'index' => ['label' => 'برگه ها'],
+            'index' => ['label' => 'اسلایدر ها'],
         ],
     ]); ?>
     <?= $this->render('_form', [

@@ -1,19 +1,14 @@
 <?php
 return [
-    'title' => 'ماژول برگه ها',
+    'title' => 'ماژول اسلایدر ها',
     'menu' => [
-        'label' => 'برگه ها',
-        'icon' => 'file',
+        'label' => 'اسلایدر ها',
+        'icon' => 'image',
         'items' => [
             [
-                'label' => 'برگه جدید',
-                'url' => ['/page/manage/create'],
-                'visible' => Yii::$app->user->canAccessAny(['page.create'])
-            ],
-            [
-                'label' => 'لیست برگه ها',
-                'url' => ['/page/manage/index'],
-                'visible' =>  Yii::$app->user->canAccessAny(['page.create','page.update','page.delete'])
+                'label' => 'لیست اسلایدر ها',
+                'url' => ['/slider/manage/index'],
+                'visible' =>  Yii::$app->user->can('slider.manage')
             ]
         ]
     ]

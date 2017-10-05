@@ -2,8 +2,8 @@
 use yii\helpers\Html;
 use themes\admin360\widgets\ActionButtons;
 
-$this->title = 'ویرایش برگه';
-$this->params['breadcrumbs'][] = ['label' => 'برگه ها', 'url' => ['index']];
+$this->title = 'ویرایش اسلایدر';
+$this->params['breadcrumbs'][] = ['label' => 'اسلایدر ها', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'ویرایش';
 ?>
@@ -11,9 +11,11 @@ $this->params['breadcrumbs'][] = 'ویرایش';
     <?= ActionButtons::widget([
         'modelID' => $model->id,
         'buttons' => [
-            'create' => ['label' => 'برگه جدید'],
-            'delete' => ['label' => 'حذف'],
-            'index' => ['label' => 'برگه ها'],
+            'gallery' => [
+                'label'=> $model->hasGallery() ? 'گالری' : 'ساخت گالری',
+            ],
+            'create' => ['label' => 'اسلایدر جدید'],
+            'index' => ['label' => 'اسلایدر ها'],
         ],
     ]); ?>
     <?= $this->render('_form', [

@@ -4,7 +4,7 @@ namespace modules\slider\backend\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
-class PageSearch extends Page
+class SliderSearch extends Slider
 {
     public function rules()
     {
@@ -22,15 +22,9 @@ class PageSearch extends Page
 
     public function search($params)
     {
-        $query = Page::find();
+        $query = Slider::find();
         $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'sort' => [
-                'defaultOrder' => [
-                    'root' => SORT_DESC,
-                    'lft' => SORT_ASC,
-                ]
-            ],
+            'query' => $query
         ]);
         $this->load($params);
         if (!$this->validate()) {
