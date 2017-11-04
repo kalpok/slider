@@ -8,6 +8,7 @@ class SliderWidget extends \yii\base\Widget
     public $sliderId;
     public $showTitle;
     public $numberOfImages;
+    public $view = 'default';
     public $imagesPreset = 'slider';
 
     public function init()
@@ -26,9 +27,12 @@ class SliderWidget extends \yii\base\Widget
         if (null == $slider || !$slider->hasGallery()) {
             return;
         }
-        return $this->render('slider', [
-            'slider' => $slider,
-            'images' => $slider->getGalleryImages()
-        ]);
+        return $this->render(
+            $this->view,
+            [
+                'slider' => $slider,
+                'images' => $slider->getGalleryImages()
+            ]
+        );
     }
 }
