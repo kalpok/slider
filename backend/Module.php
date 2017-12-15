@@ -1,8 +1,6 @@
 <?php
 namespace modules\slider\backend;
 
-use modules\slider\backend\models\Page;
-
 class Module extends \yii\base\Module
 {
     public $title;
