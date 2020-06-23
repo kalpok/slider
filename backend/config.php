@@ -2,14 +2,9 @@
 return [
     'title' => 'ماژول اسلایدر ها',
     'menu' => [
-        'label' => 'اسلایدر ها',
+        'label' => 'مدیریت اسلایدر ها',
         'icon' => 'image',
-        'items' => [
-            [
-                'label' => 'لیست اسلایدر ها',
-                'url' => ['/slider/manage/index'],
-                'visible' =>  Yii::$app->user->can('slider.manage')
-            ]
-        ]
-    ]
+        'url' => ['/slider/manage/index'],
+        'visible' =>  Yii::$app->user->can('slider.manage')
+    ]    
 ];
